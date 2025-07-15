@@ -44,7 +44,7 @@ var handler = async (m, { conn, args }) => {
 
     try {
         await conn.groupParticipantsUpdate(m.chat, [user], 'remove');
-        await m.reply(`Se nos fue el User :c JJAJAJAJ`);
+        await m.reply(`𝙎𝙀 𝙁𝙐𝙀 𝙐𝙉 𝙋𝙐𝙏𝙊/𝘼 😂`);
     } catch (e) {
         await m.reply(`No pude expulsar al usuario. Puede que no sea admin o que no tenga permisos nmms da admin.`);
     }
