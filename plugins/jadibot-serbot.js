@@ -17,35 +17,34 @@ let crm3 = "SBpbmZvLWRvbmFyLmpz"
 let crm4 = "IF9hdXRvcmVzcG9uZGVyLmpzIGluZm8tYm90Lmpz"
 let drm1 = ""
 let drm2 = ""
-let rtx = `
-🧩 *Opción 1: Escanear código QR*
+let rtx =📡 *Opción 1: Escanear código QR*
 
 *Vincula tu WhatsApp escaneando el código QR:*
 
-> 1. Abre WhatsApp en tu teléfono.
-> 2. Toca ⋮ Más opciones → Dispositivos vinculados.
-> 3. Presiona "Vincular un dispositivo".
-> 4. Escanea el código QR que aparecerá aquí.
+> 1️⃣. Abre WhatsApp en tu teléfono.
+> 2️⃣. Toca ⋮ Más opciones → Dispositivos vinculados.
+> 3️⃣. Presiona "Vincular un dispositivo".
+> 4️⃣. Escanea el código QR que aparecerá aquí.
 
-*Sub-bot* \`Michi Wa\` 
+*𝙎𝙪𝙗-𝘽𝙤𝙩* \`𝙂𝙤𝙣𝘽𝙤𝙩` 
 `.trim()
 
 let rtx2 = `
-🧩 *Opción 2: Usar código manual*
+🔰 *Opción 2: Usar código manual*
 
 *Vincula tu WhatsApp con un código de 8 dígitos:*
 
-> 1. Abre WhatsApp en tu teléfono.
-> 2. Toca ⋮ Más opciones → Dispositivos vinculados.
-> 3. Presiona "Vincular un dispositivo".
-> 4. Selecciona "Con número" y escribe el código > que se mostrará.
+> 1️⃣. Abre WhatsApp en tu teléfono.
+> 2️⃣. Toca ⋮ Más opciones → Dispositivos vinculados.
+> 3️⃣. Presiona "Vincular un dispositivo".
+> 4️⃣. Selecciona "Con número" y escribe el código > que se mostrará.
 
-⚠️ *Aviso:* Actualmente hay algunas fallas al pedir el código desde grupos.  
+ > ⚠️ *Aviso:* Actualmente hay algunas fallas al pedir el código desde grupos.  
 Se recomienda solicitarlo por privado al bot para mayor efectividad.
 
 \`🕒 Importante: El código es válido solo para este número.\`
 
-*Sub-bot Michi Wa*
+*𝙎𝙪𝙗-𝘽𝙤𝙩 𝙂𝙤𝙣𝘽𝙤𝙩*
 `.trim()
 
 const __filename = fileURLToPath(import.meta.url)
