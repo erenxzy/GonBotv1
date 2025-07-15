@@ -30,7 +30,7 @@ const handler = async (m, { conn, text }) => {
 
   // Reacción mientras busca el video
   await conn.sendMessage(m.chat, {
-    react: { text: "🕐", key: m.key }
+    react: { text: "🎧", key: m.key }
   });
 
   let video;
