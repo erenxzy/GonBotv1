@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 
 let linkRegex = /chat\.whatsapp\.com\/[0-9A-Za-z]{20,24}/i
 let linkRegex1 = /whatsapp\.com\/channel\/[0-9A-Za-z]{20,24}/i
-const defaultImage = 'https://files.catbox.moe/ubftco.jpg'
+const defaultImage = 'https://files.catbox.moe/t2q7qu.jpg'
 
 async function isAdminOrOwner(m, conn) {
   try {
@@ -23,7 +23,7 @@ const handler = async (m, { conn, command, args, isAdmin, isOwner }) => {
   const enable = command === 'on'
 
   if (!['antilink', 'welcome', 'antiarabe'].includes(type)) {
-    return m.reply(`✳️ Usa:\n*.on antilink* / *.off antilink*\n*.on welcome* / *.off welcome*\n*.on antiarabe* / *.off antiarabe*`)
+    return m.reply(`🔰 Usa:\n*.on antilink* / *.off antilink*\n*.on welcome* / *.off welcome*\n*.on antiarabe* / *.off antiarabe*`)
   }
 
   if (!(isAdmin || isOwner)) return m.reply('❌ Solo admins pueden activar o desactivar funciones.')
@@ -128,12 +128,12 @@ handler.before = async (m, { conn }) => {
     }
 
     if (m.messageStubType === 27) {
-      const txtWelcome = '↷✦; w e l c o m e ❞'
+      const txtWelcome = '𝙒𝙀𝙇𝘾𝙊𝙈𝙀 𝙭 𝘽𝙄𝙀𝙉𝙑𝙀𝙉𝙄𝘿𝙊'
       const bienvenida = `
-✿ *Bienvenid@* a *${groupMetadata.subject}*   
-✰ ${userMention}, qué gusto :D 
+👋🏻 *Bienvenid@* a *${groupMetadata.subject}*   
+👤 ${userMention}, qué gusto :D 
 ✦ Ahora somos *${groupSize}*    
-> ͞➳❥ ꒰ ⌨ ✰ ᴜsᴀ .help ᴘᴀʀᴀ ᴠᴇʀ ʟᴏs ᴄᴏᴍᴀɴᴅᴏs ꒱ | ೃ࿔₊•
+> ᴜsᴀ ʜᴇʟᴘ ᴘᴀʀᴀ ᴠᴇʀ ʟɪsᴛᴀ ᴅᴇ ᴄᴏᴍᴀɴᴅᴏ 📜
 `.trim()
 
       await conn.sendMessage(m.chat, {
@@ -144,12 +144,12 @@ handler.before = async (m, { conn }) => {
     }
 
     if (m.messageStubType === 28 || m.messageStubType === 32) {
-      const txtBye = '↷✦; b y e ❞'
+      const txtBye = '𝘽𝙔𝙀 𝙭 𝘼𝘿𝙄𝙊𝙎'
       const despedida = `
-✿ *Adiós* de *${groupMetadata.subject}*   
-✰ ${userMention}, vuelve pronto :>  
+👋🏻 *Adiós* de *${groupMetadata.subject}*   
+👤 ${userMention}, vuelve pronto :>  
 ✦ Somos *${groupSize}* aún.  
-> ͞➳❥ ꒰ ⌨ ✰ ᴜsᴀ .help ᴘᴀʀᴀ ᴠᴇʀ ʟᴏs ᴄᴏᴍᴀɴᴅᴏs ꒱ | ೃ࿔₊•
+> ᴜsᴀ ʜᴇʟᴘ ᴘᴀʀᴀ ᴠᴇʀ ʟᴀ ʟɪsᴛᴀ ᴅᴇ ᴄᴏᴍᴀɴᴅᴏ 📜
 `.trim()
 
       await conn.sendMessage(m.chat, {
