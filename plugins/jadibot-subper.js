@@ -26,17 +26,17 @@ const handler = async (m, { conn }) => {
 
   if (!listaSubs.length) {
     return conn.reply(m.chat, `
-✨ *Subs Personalizados* ✨
+✦ *Subs Personalizados* ✦
 
-> 🌃 No hay subs personalizados activos.
-> 🌟 Usa *.serbot* para crear uno.
+> 🗣️ No hay subs personalizados activos.
+> ✦ Usa *.serbot* para crear uno.
 `.trim(), m)
   }
 
-  let msg = `📍 *Subs Personalizados Activos:* 📍\n\n`
+  let msg = ` 💚*Subs Personalizados Activos:*💚\n\n`
   listaSubs.forEach((s, i) => {
-    msg += `👑 *${i + 1}.* ${s.nombre}\n`
-    msg += `> 📱 *Número:* wa.me/${s.numero}\n\n`
+    msg += `✦ *${i + 1}.* ${s.nombre}\n`
+    msg += `> ➣ *Número:* wa.me/${s.numero}\n\n`
   })
 
   msg += `✨ *Total:* ${listaSubs.length}`
