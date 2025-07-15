@@ -10,7 +10,7 @@ async function loadCharacters() {
         const data = await fs.readFile(charactersFilePath, 'utf-8')
         return JSON.parse(data)
     } catch (error) {
-        throw new Error('❀ No se pudo cargar el archivo characters.json.')
+        throw new Error('💠 No se pudo cargar el archivo characters.json.')
     }
 }
 
@@ -18,7 +18,7 @@ async function saveCharacters(characters) {
     try {
         await fs.writeFile(charactersFilePath, JSON.stringify(characters, null, 2), 'utf-8')
     } catch (error) {
-        throw new Error('❀ No se pudo guardar el archivo characters.json.')
+        throw new Error('💠 No se pudo guardar el archivo characters.json.')
     }
 }
 
@@ -35,7 +35,7 @@ async function saveHarem(harem) {
     try {
         await fs.writeFile(haremFilePath, JSON.stringify(harem, null, 2), 'utf-8')
     } catch (error) {
-        throw new Error('❀ No se pudo guardar el archivo harem.json.')
+        throw new Error('💠 No se pudo guardar el archivo harem.json.')
     }
 }
 
@@ -47,7 +47,7 @@ let handler = async (m, { conn }) => {
         const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000)
         const minutes = Math.floor(remainingTime / 60)
         const seconds = remainingTime % 60
-        return await conn.reply(m.chat, `《✧》Por favor espera *${minutes} minutos y ${seconds} segundos* antes de volver a utilizar el comando *#rw*.`, m)
+        return await conn.reply(m.chat, `《💠》Por favor espera *${minutes} minutos y ${seconds} segundos* antes de volver a utilizar el comando *#rw*.`, m)
     }
 
     try {
@@ -62,11 +62,11 @@ let handler = async (m, { conn }) => {
             : 'Libre'
 
         const message = `> ☄︎ Nombre *»* *${randomCharacter.name}*
-> ᥫ᭡ Género *»* *${randomCharacter.gender}*
-> ✰ Valor *»* *${randomCharacter.value}*
-> ᰔᩚ Estado *»* ${statusMessage}
-> ✿ Fuente *»* *${randomCharacter.source}*
-> ✦ ID: *${randomCharacter.id}*`
+> 🔅 Género *»* *${randomCharacter.gender}*
+> 💲 Valor *»* *${randomCharacter.value}*
+> 📜 Estado *»* ${statusMessage}
+> 🧬 Fuente *»* *${randomCharacter.source}*
+> 🆔 ID: *${randomCharacter.id}*`
 
         const mentions = userEntry ? [userEntry.userId] : []
         await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m, { mentions })
