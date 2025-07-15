@@ -47,15 +47,15 @@ const handler = async (m, { conn, text }) => {
   const { title, timestamp, views, url, thumbnail, author, ago } = video;
 
   const caption = [
-    "✧─── ･ ｡ﾟ★: *.✦ .* :★. ───✧",
-    "⧼ ᰔᩚ ⧽  M U S I C  -  Y O U T U B E",
+    "━━━━━━━━❪📥❫━━━━━━━━",
+    "  M U S I C  -  Y O U T U B E",
     "",
-    `» ✧ « *${title}*`,
-    `> ➩ Canal › *${author.name}*`,
-    `> ➩ Duración › *${timestamp}*`,
-    `> ➩ Vistas › *${formatViews(views)}*`,
-    `> ➩ Publicado › *${ago || "desconocido"}*`,
-    `> ➩ Link › *${url}*`,
+    ` 🌟  *${title}*`,
+    `> 📺 Canal › *${author.name}*`,
+    `> ⏳ Duración › *${timestamp}*`,
+    `> 📊 Vistas › *${formatViews(views)}*`,
+    `> 📆 Publicado › *${ago || "desconocido"}*`,
+    `> 🖇️ Link › *${url}*`,
     "",
     "> ✰ Responde con *Audio* o *Video* para descargar ✧"
   ].join("\n");
