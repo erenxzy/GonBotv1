@@ -39,11 +39,11 @@ apt update && apt upgrade && pkg install -y git nodejs ffmpeg imagemagick yarn
 ```
 
 ```bash
-git clone https://github.com/erenxzy/GonBot-v1
+git clone https://github.com/erenxzy/GonBotv1
 
 ```
 ```bash
-cd GonBot-v1
+cd GonBotv1
 ```
 ```bash
 npm install
