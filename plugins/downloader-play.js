@@ -57,7 +57,7 @@ const handler = async (m, { conn, text }) => {
     `> 📆 Publicado › *${ago || "desconocido"}*`,
     `> 🖇️ Link › *${url}*`,
     "",
-    "> ✰ Responde con *Audio* o *Video* para descargar ✧"
+    "> 🚀 Responde con *Audio* o *Video* para descargar "
   ].join("\n");
 
   await conn.sendMessage(m.chat, {
