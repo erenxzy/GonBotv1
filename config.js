@@ -3,16 +3,16 @@ import chalk from 'chalk'
 import { fileURLToPath } from 'url'
 
 global.owner = [
-  ['50493732693', 'Wirk', true]
+  ['50493732693', 'erenxszy ', true]
 ]
 
 global.mods = []
 global.prems = []
 
-global.namebot = '✧ Michi-Wa ✧'
-global.packname = '✦ Michi-Wa ✦'
-global.author = '© Made with ☁︎ Wirk ✧'
-global.moneda = '✦ Mangos ✦'
+global.namebot = '𝙂𝙤𝙣𝘽𝙤𝙩-𝘃1'
+global.packname = 'ᴇʀᴇɴxsᴢʏ sᴛᴋ'
+global.author = 'ʙʏ ᴇʀᴇɴxᴢʏ'
+global.moneda = 'dolar'
 
 global.libreria = 'Baileys'
 global.baileys = 'V 6.7.16'
@@ -21,13 +21,13 @@ global.sessions = 'Sessions'
 global.jadi = 'JadiBots'
 global.yukiJadibts = true
 
-global.namecanal = '✧ Michi Wa Channel • Ado ☎︎'
-global.idcanal = '120363403739366547@newsletter'
-global.canal = 'https://whatsapp.com/channel/0029Vb5pM031CYoMvQi2I02D'
-global.canalreg = '120363402895449162@newsletter'
+global.namecanal = '𝘾𝙃𝘼𝙉𝙉𝙀𝙇 𝙊𝙁𝘾 𝙂𝙊𝙉 💚'
+global.idcanal = '120363417252896376@newsletter'
+global.canal = 'https://whatsapp.com/channel/0029VbBBn9R4NViep4KwCT3Z'
+global.canalreg = '120363417252896376@newsletter'
 
 global.ch = {
-  ch1: '120363420941524030@newsletter'
+  ch1: '120363417252896376@newsletter'
 }
 
 global.multiplier = 69
