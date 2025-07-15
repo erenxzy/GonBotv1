@@ -21,8 +21,8 @@ const toSansSerifPlain = (text = "") =>
   }).join("");
 
 const handler = async (m, { conn }) => {
-  if (!m.quoted || !m.quoted.text || !m.quoted.text.includes("乂  M U S I C  -  Y O U T U B E"))
-    return m.reply(toSansSerifPlain("✦ Debes responder a un mensaje que contenga '✧─── ･ ｡ﾟ★: *.✦ .* :★. ───✧'"));
+  if (!m.quoted || !m.quoted.text || !m.quoted.text.includes("  M U S I C  -  Y O U T U B E"))
+    return m.reply(toSansSerifPlain("🚀 Debes responder a un mensaje que contenga '━━━━━━━━❪📥❫━━━━━━━━'"));
 
   const linkMatch = m.quoted.text.match(/https?:\/\/(?:www\.)?youtu(?:\.be|be\.com)\/[^\s]+/);
   if (!linkMatch) return m.reply(toSansSerifPlain("✦ No se encontró un enlace de YouTube en el mensaje citado."));
