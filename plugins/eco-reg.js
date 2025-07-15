@@ -23,10 +23,10 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
   if (user.registered) {
     return m.reply(
-      `🔒 Ya estás registrado
+      `🔒 𝙔𝘼 𝙀𝙎𝙏𝘼𝙎 𝙍𝙀𝙂𝙄𝙎𝙏𝙍𝘼𝘿𝙊 𝙀𝙉 𝙈𝙄 𝘽𝘼𝙎𝙀 𝘿𝙀 𝘿𝘼𝙏𝙊𝙎
 
 ¿Deseas reiniciar tu registro?
-➤ Usa: ${usedPrefix}unreg para eliminar tu registro actual`
+➪ Usa: ${usedPrefix} ᴜsᴀ ᴜɴʀᴇɢ ᴘᴀʀᴀ ᴇʟɪᴍɪɴᴀʀ ᴛᴜ ʀᴇɢɪsᴛʀᴏ`
     )
   }
 
@@ -34,8 +34,8 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
     return m.reply(
       `❗ Formato incorrecto
 
-➤ Usa: ${usedPrefix + command} nombre.edad
-➤ Ejemplo: ${usedPrefix + command} ${name2}.18`
+➪ Usa: ${usedPrefix + command} nombre.edad
+➪ Ejemplo: ${usedPrefix + command} ${name2}.16`
     )
   }
 
@@ -60,13 +60,13 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   const sn = createHash('md5').update(m.sender).digest('hex').slice(0, 20)
 
   const certificadoPacto = `
-✩*⢄⢁✧ --------- ✧⡈⡠*✩
-❐ *Registro exitoso* ❐
 
-✐ Nombre: *${name}*
-✐ Edad: *${age}*
-✐ ID único: *${sn}*
-✐ Fecha: *${fecha.toLocaleDateString()}*
+❐ *𝙉𝙐𝙀𝙑𝙊 𝙍𝙀𝙂𝙄𝙎𝙏𝙍𝙊* ❐
+
+📝 𝙉𝙊𝙈𝘽𝙍𝙀: *${name}*
+🎲 𝙀𝘿𝘼𝘿: *${age}*
+🆔 𝙏𝙐 𝙄𝘿 𝙐𝙉𝙄𝘾𝙊: *${sn}*
+📆 𝙁𝙀𝘾𝙃𝘼: *${fecha.toLocaleDateString()}*
 `.trim()
 
   await m.react('✅')
@@ -78,14 +78,14 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 
   if (reinoEspiritual) {
     const mensajeNotificacion = `
-☄︎✦❀ 〘 *Nuevo Registro* 〙❀✦☄︎
+ 〔 Nuevo Registro 〕
 
-☄︎ Nombre: *${name}*
-☁︎ Edad: *${age}*
-✦ ID: *${sn}*
-✦ Fecha: *${moment().format('YYYY-MM-DD HH:mm:ss')}*
+📝 𝙉𝙊𝙈𝘽𝙍𝙀: *${name}*
+🎲 𝙀𝘿𝘼𝘿: *${age}*
+🆔 𝙏𝙐 𝙄𝘿 𝙐𝙉𝙄𝘾𝙊: *${sn}*
+📆 𝙁𝙀𝘾𝙃𝘼: *${moment().format('YYYY-MM-DD HH:mm:ss')}*
 
-❀ Recompensas ❀
+ 𝙍𝙀𝘾𝙊𝙈𝙋𝙀𝙉𝙎𝘼𝙎 🎁 
 ${moneda}: *+46*`.trim()
 
     try {
