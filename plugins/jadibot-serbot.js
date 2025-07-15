@@ -36,7 +36,7 @@ let rtx2 = `
 *Vincula tu WhatsApp con un código de 8 dígitos:*
 
 > ➊. Abre WhatsApp en tu teléfono.
-> ➋. Toca ⋮ Más opciones → Dispositivos vinculados.
+> ➋. Toca ⋮ Más opciones ➪ Dispositivos vinculados.
 > ➌. Presiona "Vincular un dispositivo".
 > ➌. Selecciona "Con número" y escribe el código > que se mostrará.
 
