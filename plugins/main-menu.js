@@ -1,182 +1,158 @@
-import fs from 'fs'
-import { join } from 'path'
-import { xpRange } from '../lib/levelling.js'
-
-const tags = {
-  serbot: '✐ Sockets',
-  eco: '✦ Economía', 
-  downloader: '☄︎ Downloaders',
-  tools: 'ᥫ᭡ Herramientas',
-  owner: '✧ Owner',
-  info: '❀ Info',
-  gacha: '☀︎ Gacha Anime', 
-  group: '꒷ Grupos',
-  search: '✧ Buscadores',
-  sticker: '✐ Stickers',
-  ia: 'ᰔ IA',
-  channel: '✿ Channels', 
-}
-
-const defaultMenu = {
-  before: `
-*⌬ .・。.・゜✭・.・✫・゜・。. ⌬*
-
-∘₊✧ *Hola, soy %botname*
-( %tipo )
-
-꒷︶꒷‧₊˚ ¿Qué tal *%name*? ˚₊‧꒷︶꒷
-𓆩 Actividad » *%uptime*
-𓆩 Fecha » *%date*
-
-> ✐ Puedes personalizar tu socket:
-> ⤿ *.setname* ← Cambiar nombre
-> ⤿ *.setbanner* ← Cambiar banner
-
-∘₊✧ *Adonix API Oficial:*
-> ❀ https://theadonix-api.vercel.app
-
-*⌬ .・。.・゜✭・.・✫・゜・。. ⌬*
-
-\`⌬ ꒰ Menú de Comandos ꒱ ⌬\`
-
-%readmore`.trimStart(),
-
-  header: '\n*꒷︶꒷꒥꒷‧₊˚ %category*',
-  body: '> ⤿ %cmd %islimit %isPremium',
-  footer: '*꒷꒦꒷꒦꒷꒷꒦꒷꒦꒷꒦꒷꒦꒷꒷*',
-  after: '\n✦ 𓆩 *Made By 𝗪𝗶𝗿𝗸* ☁︎',
-}
-
-const handler = async (m, { conn, usedPrefix: _p }) => {
+const handler = async (m, { conn }) => {
   try {
-    const { exp, limit, level } = global.db.data.users[m.sender]
-    const { min, xp, max } = xpRange(level, global.multiplier)
     const name = await conn.getName(m.sender)
+    const date = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
+    const uptime = clockString(process.uptime() * 1000)
+    const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
+    const tipo = conn.user?.jid?.includes('3147172161') ? 'Bot Principal 🟢' : '𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️'
+    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg' // URL del banner
 
-    const d = new Date(Date.now() + 3600000)
-    const locale = 'es'
-    const date = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
+    let header = `
+┏━━━━━━━━━━━━━━━━━━┓
+┃  🤖 *${nombreBot}* [𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️]
+┃  👤 𝙃𝙤𝙡𝙖, *${name}*
+┃  ⏱️ 𝘼𝙘𝙩𝙞𝙫𝙤 𝙃𝙖𝙘𝙚: *${uptime}*
+┃  📅 𝙁𝙚𝙘𝙝𝙖: *${date}*
+┗━━━━━━━━━━━━━━━━━━┛`.trim()
 
-    const help = Object.values(global.plugins)
-      .filter(p => !p.disabled)
-      .map(plugin => ({
-        help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
-        tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
-        prefix: 'customPrefix' in plugin,
-        limit: plugin.limit,
-        premium: plugin.premium,
-      }))
+    let text = `
+${header}
 
-    let nombreBot = global.namebot || 'Bot'
-    let bannerFinal = './storage/img/menu.jpg'
+── ⬤𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘋𝙊⬤ ──
 
-    const botActual = conn.user?.jid?.split('@')[0].replace(/\D/g, '')
-    const configPath = join('./JadiBots', botActual, 'config.json')
+> ᴍᴀs ɪɴғᴏ ᴅᴇ ɢᴏɴʙᴏᴛ-ᴠ1 
+https://erenxsit.vercel.app
 
-    if (fs.existsSync(configPath)) {
-      try {
-        const config = JSON.parse(fs.readFileSync(configPath))
-        if (config.name) nombreBot = config.name
-        if (config.banner) bannerFinal = config.banner
-      } catch (err) {
-        console.log('⚠️ No se pudo leer config del subbot:', err)
-      }
-    }
+╭─「 🔰 𝙎𝙐𝘽-𝘽𝙊𝙏𝙎 」
+│ ✎ .bots  
+│ ✎ .qr  
+│ ✎ .code  
+│ ✎ .setbanner  
+│ ✎ .setname  
+│ ✎ .sublist  
+╰───────────────
 
-    const tipo = botActual === '+573147172161'.replace(/\D/g, '')
-      ? 'Principal 🅥'
-      : 'Sub Bot 🅑'
+╭─「 💰 𝙀𝘾𝙊𝙉𝙊𝙈𝙄𝘼 」
+│ ✎ .bal  
+│ ✎ .eboard  
+│ ✎ .crimen  
+│ ✎ .depositar  
+│ ✎ .slut  
+│ ✎ .unreg  
+│ ✎ .work 
+╰───────────────
 
-    const menuConfig = conn.menu || defaultMenu
+╭─「 📥 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼 」
+│ ✎ .play  
+│ ✎ .tiktokvid  
+│ ✎ .tiktok <enlace>  
+│ ✎ .play2  
+│ ✎ .ytv  
+│ ✎ .ytmp4  
+│ ✎ .playaudio  
+│ ✎ .mp4  
+│ ✎ .ytmp4doc  
+│ ✎ .ig <url>  
+╰───────────────
 
-    const _text = [
-      menuConfig.before,
-      ...Object.keys(tags).map(tag => {
-        return [
-          menuConfig.header.replace(/%category/g, tags[tag]),
-          help.filter(menu => menu.tags?.includes(tag)).map(menu =>
-            menu.help.map(helpText =>
-              menuConfig.body
-                .replace(/%cmd/g, menu.prefix ? helpText : `${_p}${helpText}`)
-                .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
-                .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
-                .trim()
-            ).join('\n')
-          ).join('\n'),
-          menuConfig.footer,
-        ].join('\n')
-      }),
-      menuConfig.after
-    ].join('\n')
+╭─「 🧰 𝙃𝙀𝙍𝘼𝙈𝙄𝙀𝙉𝙏𝘼𝙎 」
+│ ✎ .lid 
+│ ✎ .hd  
+│ ✎ .deepseek  
+│ ✎ .ss <página web>  
+│ ✎ .tourl
+│ ✎ .apk
+╰───────────────
 
-    const replace = {
-      '%': '%',
-      p: _p,
-      botname: nombreBot,
-      taguser: '@' + m.sender.split('@')[0],
-      exp: exp - min,
-      maxexp: xp,
-      totalexp: exp,
-      xp4levelup: max - exp,
-      level,
-      limit,
-      name,
-      date,
-      uptime: clockString(process.uptime() * 1000),
-      tipo,
-      readmore: readMore,
-      greeting,
-    }
+╭─「 👑 𝘾𝙍𝙀𝘼𝘿𝙊𝙍 」
+│ ✎ .dsowner  
+│ ✎ .sendmeme  
+│ ✎ .update  
+╰───────────────
 
-    const text = _text.replace(
-      new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join('|')})`, 'g'),
-      (_, name) => String(replace[name])
-    )
+╭─「 📚 𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝘾𝙄𝙊𝙉 」
+│ ✎ .creador  
+│ ✎ .servers  
+│ ✎ .sugerir < cosas pal botsito >  
+╰───────────────
 
-    const isURL = typeof bannerFinal === 'string' && /^https?:\/\//i.test(bannerFinal)
-    const imageContent = isURL
-      ? { image: { url: bannerFinal } }
-      : { image: fs.readFileSync(bannerFinal) }
+╭─「 🎲 𝙂𝘼𝘾𝙃𝘼 𝘼𝙉𝙄𝙈𝙀 」
+│ ✎ .infoanime
+│ ✎ .c  
+│ ✎ .harem < @usuario >  
+│ ✎ .rw
+│ ✎ .waifu
+╰───────────────
+
+╭─「 👥 𝙂𝙍𝙐𝙋𝙊 」
+│ ✎ .on welcome  
+│ ✎ .off welcome  
+│ ✎ .on antilink  
+│ ✎ .off antilink  
+│ ✎ .kick  
+│ ✎ .personalidad  
+│ ✎ .top *<texto>*  
+│ ✎ .invocar *<mensaje opcional>*  
+╰───────────────
+
+╭─「 🔎 𝘽𝙐𝙎𝙌𝙐𝙀𝘿𝘼 」
+│ ✎ .imagen *<búsqueda>*  
+│ ✎ .pinterest  
+│ ✎ .tiktoksearch  
+│ ✎ .yts  
+╰───────────────
+
+╭─「 🖼️ 𝙎𝙏𝙄𝘾𝙆𝙀𝙍 」
+│ ✎ .sticker  
+│ ✎ .stickersearch *<texto>*  
+│ ✎ .toimg (reply)  
+╰───────────────
+
+╭─「 🤖 𝙄𝘼 」
+│ ✎ .adonix <pregunta>  
+│ ✎ .dalle <texto>  
+│ ✎ .iavoz <texto>  
+│ ✎ .ask
+│ ✎ .gemini 
+╰───────────────
+
+╭─「 📢 𝘾𝘼𝙉𝘼𝙇𝙀𝙎 」
+│ ✎ .nuevafotochannel  
+│ ✎ .nosilenciarcanal  
+│ ✎ .silenciarcanal  
+│ ✎ .noseguircanal  
+│ ✎ .seguircanal  
+│ ✎ .avisoschannel  
+│ ✎ .resiviravisos  
+│ ✎ .inspect  
+│ ✎ .inspeccionar  
+│ ✎ .eliminarfotochannel  
+│ ✎ .reactioneschannel  
+│ ✎ .reaccioneschannel  
+│ ✎ .nuevonombrecanal  
+│ ✎ .nuevadescchannel  
+╰───────────────
+
+🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1`.trim()
 
     await conn.sendMessage(m.chat, {
-      ...imageContent,
-      caption: text.trim(),
-      mentionedJid: conn.parseMention(text),
-      ...rcanal
+      image: { url: bannerURL },
+      caption: text,
+      mentions: [m.sender]
     }, { quoted: m })
 
   } catch (e) {
     console.error('❌ Error en el menú:', e)
-    conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error.', m)
+    conn.reply(m.chat, '❎ Error al mostrar el menú.', m)
   }
 }
 
-handler.command = ['menu', 'help', 'menú']
-handler.register = true
+handler.command = ['menu', 'menú', 'help']
 export default handler
 
-// Utilidades
-const more = String.fromCharCode(8206)
-const readMore = more.repeat(4001)
-
 function clockString(ms) {
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
+  const h = Math.floor(ms / 3600000)
+  const m = Math.floor(ms / 60000) % 60
+  const s = Math.floor(ms / 1000) % 60
   return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
-
-const ase = new Date()
-let hour = ase.getHours()
-
-const greetingMap = {
-  0: 'una linda noche 🌙', 1: 'una linda noche 💤', 2: 'una linda noche 🦉',
-  3: 'una linda mañana ✨', 4: 'una linda mañana 💫', 5: 'una linda mañana 🌅',
-  6: 'una linda mañana 🌄', 7: 'una linda mañana 🌅', 8: 'una linda mañana 💫',
-  9: 'una linda mañana ✨', 10: 'un lindo día 🌞', 11: 'un lindo día 🌨',
-  12: 'un lindo día ❄', 13: 'un lindo día 🌤', 14: 'una linda tarde 🌇',
-  15: 'una linda tarde 🥀', 16: 'una linda tarde 🌹', 17: 'una linda tarde 🌆',
-  18: 'una linda noche 🌙', 19: 'una linda noche 🌃', 20: 'una linda noche 🌌',
-  21: 'una linda noche 🌃', 22: 'una linda noche 🌙', 23: 'una linda noche 🌃',
-}
-var greeting = 'espero que tengas ' + (greetingMap[hour] || 'un buen día')
