@@ -8,7 +8,7 @@ const handler = async (m, { conn }) => {
   const botActual = conn.user?.jid?.split('@')[0].replace(/\D/g, '')
   const configPath = path.join('./JadiBots', botActual, 'config.json')
 
-  let nombreBot = global.namebot || '✧ ʏᴜʀᴜ ʏᴜʀɪ ✧'
+  let nombreBot = global.namebot || '𝙂𝙤𝙣𝘽𝙤𝙩-𝘃1'
 
   if (fs.existsSync(configPath)) {
     try {
