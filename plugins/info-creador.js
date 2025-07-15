@@ -1,5 +1,5 @@
 let handler = async (m, { conn }) => {
-  const name = 'Ado'
+  const name = '𝙀𝙧𝙚𝙣𝙭𝙯𝙮-𝙈𝘿𝙁'
   const number = '18493907272' // sin @
   const email = 'erenxz01@gmail.com'
   const org = 'Propietario De GonBotv1'
