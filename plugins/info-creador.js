@@ -1,9 +1,9 @@
 let handler = async (m, { conn }) => {
   const name = 'Ado'
-  const number = '50493732693' // sin @
-  const email = 'me.ado926codes@gmail.com'
-  const org = 'Creador de Michi Wa Bot'
-  const note = 'Mini desarrollador de bots de WhatsApp'
+  const number = '18493907272' // sin @
+  const email = 'erenxz01@gmail.com'
+  const org = 'Propietario De GonBotv1'
+  const note = 'Creador De Website Y Modificador De Bots Personalizado Creador ✨'
 
   const vcard = `
 BEGIN:VCARD
