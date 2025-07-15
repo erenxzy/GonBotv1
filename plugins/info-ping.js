@@ -22,7 +22,7 @@ const handler = async (m, { conn }) => {
   const latency = Date.now() - start
 
   await conn.sendMessage(m.chat, { 
-    text: `☁︎ *Ping:* ${latency} ms\n> ${nombreBot}` 
+    text: `🛜 *Ping:* ${latency} ms\n> ${nombreBot}` 
   }, { quoted: m })
 }
 
