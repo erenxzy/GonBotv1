@@ -10,7 +10,7 @@ const handler = async (m, { conn }) => {
     const isPrincipal = botPrincipalJIDs.includes(conn.user?.jid)
 
     //URLs de banners hecho por Elder 
-    const bannerPrincipalURL = 'https://files.catbox.moe/jzfs7z.jpg'
+    const bannerPrincipalURL = 'https://files.catbox.moe/5dkt6a.jpg'
     const bannerSubbotURL = 'https://cdn.russellxz.click/4badd762.jpeg' // Cambia esta URL por tu banner para subbots
 
     let text, bannerURL
