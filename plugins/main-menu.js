@@ -1,7 +1,23 @@
 import fs from 'fs'
+import { join } from 'path'
+import { xpRange } from '../lib/levelling.js'
+
+const tags = {
+  serbot: '✐ Sockets',
+  eco: '✦ Economía', 
+  downloader: '☄︎ Downloaders',
+  tools: 'ᥫ᭡ Herramientas',
+  owner: '✧ Owner',
+  info: '❀ Info',
+  gacha: '☀︎ Gacha Anime', 
+  group: '꒷ Grupos',
+  search: '✧ Buscadores',
+  sticker: '✐ Stickers',
+  ia: 'ᰔ IA',
+  channel: '✿ Channels', 
+}
 
 const defaultMenu = {
-  banner: 'https://cdn.russellxz.click/808efb6d.jpeg', // Aquí pones la URL de la imagen del banner
   before: `
 *⌬ .・。.・゜✭・.・✫・゜・。. ⌬*
 
@@ -25,80 +41,105 @@ const defaultMenu = {
 
 %readmore`.trimStart(),
 
-  // Aquí defines el menú con categorías y sus comandos manualmente:
-  categories: {
-    '✐ Sockets': [
-      '.ping',
-      '.status',
-      '.uptime',
-    ],
-    '✦ Economía': [
-      '.balance',
-      '.daily',
-      '.pay <usuario> <cantidad>',
-    ],
-    '☄︎ Downloaders': [
-      '.ytmp3 <url>',
-      '.ytmp4 <url>',
-      '.tiktok <url>',
-    ],
-    'ᥫ᭡ Herramientas': [
-      '.sticker',
-      '.toimg',
-      '.ocr',
-    ],
-    '❀ Info': [
-      '.botinfo',
-      '.user <@usuario>',
-      '.help',
-    ],
-    // Agrega más categorías y comandos aquí...
-  },
-
+  header: '\n*꒷︶꒷꒥꒷‧₊˚ %category*',
+  body: '> ⤿ %cmd %islimit %isPremium',
   footer: '*꒷꒦꒷꒦꒷꒷꒦꒷꒦꒷꒦꒷꒦꒷꒷*',
   after: '\n✦ 𓆩 *Made By 𝗪𝗶𝗿𝗸* ☁︎',
 }
 
 const handler = async (m, { conn, usedPrefix: _p }) => {
   try {
-    // Datos básicos para reemplazos
-    let nombreBot = global.namebot || 'Bot'
+    const { exp, limit, level } = global.db.data.users[m.sender]
+    const { min, xp, max } = xpRange(level, global.multiplier)
     const name = await conn.getName(m.sender)
 
     const d = new Date(Date.now() + 3600000)
     const locale = 'es'
     const date = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
 
-    const uptime = clockString(process.uptime() * 1000)
+    const help = Object.values(global.plugins)
+      .filter(p => !p.disabled)
+      .map(plugin => ({
+        help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
+        tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
+        prefix: 'customPrefix' in plugin,
+        limit: plugin.limit,
+        premium: plugin.premium,
+      }))
+
+    let nombreBot = global.namebot || 'Bot'
+    let bannerFinal = './storage/img/menu.jpg'
 
     const botActual = conn.user?.jid?.split('@')[0].replace(/\D/g, '')
+    const configPath = join('./JadiBots', botActual, 'config.json')
+
+    if (fs.existsSync(configPath)) {
+      try {
+        const config = JSON.parse(fs.readFileSync(configPath))
+        if (config.name) nombreBot = config.name
+        if (config.banner) bannerFinal = config.banner
+      } catch (err) {
+        console.log('⚠️ No se pudo leer config del subbot:', err)
+      }
+    }
+
     const tipo = botActual === '+50494547493'.replace(/\D/g, '')
       ? 'Principal 🅥'
       : 'Sub Bot 🅑'
 
-    // Armamos el texto del menú
-    let text = defaultMenu.before
-    text = text.replace(/%botname/g, nombreBot)
-      .replace(/%tipo/g, tipo)
-      .replace(/%name/g, name)
-      .replace(/%date/g, date)
-      .replace(/%uptime/g, uptime)
-      .replace(/%readmore/g, readMore)
+    const menuConfig = conn.menu || defaultMenu
 
-    // Agregamos categorías y comandos
-    for (const [category, commands] of Object.entries(defaultMenu.categories)) {
-      text += `\n\n*${category}*\n`
-      commands.forEach(cmd => {
-        text += `> ⤿ ${cmd}\n`
-      })
-      text += `\n${defaultMenu.footer}`
+    const _text = [
+      menuConfig.before,
+      ...Object.keys(tags).map(tag => {
+        return [
+          menuConfig.header.replace(/%category/g, tags[tag]),
+          help.filter(menu => menu.tags?.includes(tag)).map(menu =>
+            menu.help.map(helpText =>
+              menuConfig.body
+                .replace(/%cmd/g, menu.prefix ? helpText : `${_p}${helpText}`)
+                .replace(/%islimit/g, menu.limit ? '◜⭐◞' : '')
+                .replace(/%isPremium/g, menu.premium ? '◜🪪◞' : '')
+                .trim()
+            ).join('\n')
+          ).join('\n'),
+          menuConfig.footer,
+        ].join('\n')
+      }),
+      menuConfig.after
+    ].join('\n')
+
+    const replace = {
+      '%': '%',
+      p: _p,
+      botname: nombreBot,
+      taguser: '@' + m.sender.split('@')[0],
+      exp: exp - min,
+      maxexp: xp,
+      totalexp: exp,
+      xp4levelup: max - exp,
+      level,
+      limit,
+      name,
+      date,
+      uptime: clockString(process.uptime() * 1000),
+      tipo,
+      readmore: readMore,
+      greeting,
     }
 
-    text += `\n${defaultMenu.after}`
+    const text = _text.replace(
+      new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join('|')})`, 'g'),
+      (_, name) => String(replace[name])
+    )
 
-    // Enviamos la imagen del banner desde URL
+    const isURL = typeof bannerFinal === 'string' && /^https?:\/\//i.test(bannerFinal)
+    const imageContent = isURL
+      ? { image: { url: bannerFinal } }
+      : { image: fs.readFileSync(bannerFinal) }
+
     await conn.sendMessage(m.chat, {
-      image: { url: defaultMenu.banner },
+      ...imageContent,
       caption: text.trim(),
       mentionedJid: conn.parseMention(text)
     }, { quoted: m })
@@ -123,3 +164,18 @@ function clockString(ms) {
   let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
   return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
+
+const ase = new Date()
+let hour = ase.getHours()
+
+const greetingMap = {
+  0: 'una linda noche 🌙', 1: 'una linda noche 💤', 2: 'una linda noche 🦉',
+  3: 'una linda mañana ✨', 4: 'una linda mañana 💫', 5: 'una linda mañana 🌅',
+  6: 'una linda mañana 🌄', 7: 'una linda mañana 🌅', 8: 'una linda mañana 💫',
+  9: 'una linda mañana ✨', 10: 'un lindo día 🌞', 11: 'un lindo día 🌨',
+  12: 'un lindo día ❄', 13: 'un lindo día 🌤', 14: 'una linda tarde 🌇',
+  15: 'una linda tarde 🥀', 16: 'una linda tarde 🌹', 17: 'una linda tarde 🌆',
+  18: 'una linda noche 🌙', 19: 'una linda noche 🌃', 20: 'una linda noche 🌌',
+  21: 'una linda noche 🌃', 22: 'una linda noche 🌙', 23: 'una linda noche 🌃',
+}
+var greeting = 'espero que tengas ' + (greetingMap[hour] || 'un buen día')
