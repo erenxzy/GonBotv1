@@ -145,7 +145,7 @@ let handler = async (m, { conn, text }) => {
 };
 
 handler.help = ['pinterest'];
-handler.command = ['pinterest', 'pin'];
+handler.command = ['pinterest', 'pin', 'pinGon'];
 handler.tags = ['buscador'];
 
 export default handler;
