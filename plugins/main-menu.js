@@ -3,138 +3,93 @@ const handler = async (m, { conn }) => {
     const name = await conn.getName(m.sender)
     const date = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
     const uptime = clockString(process.uptime() * 1000)
-    const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
-    const tipo = conn.user?.jid?.includes('3147172161') ? 'Bot Principal 🟢' : '𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️'
-    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg' // URL del banner
 
-    let header = `
+    const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
+
+    // Detectar si es el bot principal o uno personalizable
+    const isPrincipal = conn.user?.jid?.includes('3147172161')
+    const tipoBot = isPrincipal ? '🟢 Bot Principal' : '⚙️ Bot Personalizable'
+
+    // Imágenes del menú
+    const bannerPrincipal = 'https://files.catbox.moe/jzfs7z.jpg'
+    const bannerPersonalizado = 'https://files.catbox.moe/example.jpg' // <-- cámbiala tú
+
+    const bannerURL = isPrincipal ? bannerPrincipal : bannerPersonalizado
+
+    // Encabezado del menú
+    const header = `
 ┏━━━━━━━━━━━━━━━━━━┓
-┃  🤖 *${nombreBot}* [𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️]
-┃  👤 𝙃𝙤𝙡𝙖, *${name}*
-┃  ⏱️ 𝘼𝙘𝙩𝙞𝙫𝙤 𝙃𝙖𝙘𝙚: *${uptime}*
-┃  📅 𝙁𝙚𝙘𝙝𝙖: *${date}*
+┃ 🤖 *${nombreBot}* [${tipoBot}]
+┃ 👤 𝙃𝙤𝙡𝙖, *${name}*
+┃ ⏱️ 𝘼𝙘𝙩𝙞𝙫𝙤 𝙃𝙖𝙘𝙚: *${uptime}*
+┃ 📅 𝙁𝙚𝙘𝙝𝙖: *${date}*
 ┗━━━━━━━━━━━━━━━━━━┛`.trim()
 
-    let text = `
-${header}
+    // Contenido del menú del Bot Principal
+    const menuPrincipal = `
+── ⬤𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊⬤ ──
 
-── ⬤𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘋𝙊⬤ ──
-
-> ᴍᴀs ɪɴғᴏ ᴅᴇ ɢᴏɴʙᴏᴛ-ᴠ1 
+> Más info de GonBot:
 https://erenxsit.vercel.app
 
-╭─「 🔰 𝙎𝙐𝘽-𝘽𝙊𝙏𝙎 」
-│ ✎ .bots  
-│ ✎ .qr  
-│ ✎ .code  
-│ ✎ .setbanner  
-│ ✎ .setname  
-│ ✎ .sublist  
+╭─「 🔰 SUB-BOTS 」
+│ ✎ .bots .qr .code .setbanner .setname .sublist
 ╰───────────────
 
-╭─「 💰 𝙀𝘾𝙊𝙉𝙊𝙈𝙄𝘼 」
-│ ✎ .bal  
-│ ✎ .eboard  
-│ ✎ .crimen  
-│ ✎ .depositar  
-│ ✎ .slut  
-│ ✎ .unreg  
-│ ✎ .work 
+╭─「 💰 ECONOMÍA 」
+│ ✎ .bal .eboard .crimen .depositar .slut .unreg .work 
 ╰───────────────
 
-╭─「 📥 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼 」
+╭─「 📥 DESCARGA 」
+│ ✎ .play .tiktokvid .ytmp4 .ig <url>
+╰───────────────
+
+╭─「 🧰 HERRAMIENTAS 」
+│ ✎ .hd .tourl .apk
+╰───────────────
+
+╭─「 🤖 IA 」
+│ ✎ .adonix .dalle .iavoz .ask .gemini
+╰───────────────
+
+╭─「 🖼️ STICKERS 」
+│ ✎ .sticker .stickersearch .toimg
+╰───────────────
+
+╭─「 🎲 GACHA/ANIME 」
+│ ✎ .infoanime .c .harem .waifu
+╰───────────────
+
+╭─「 👥 GRUPO 」
+│ ✎ .on welcome .off antilink .kick .invocar
+╰───────────────
+
+╭─「 📢 CANALES 」
+│ ✎ .seguircanal .avisoschannel .inspect
+╰───────────────
+
+╭─「 📚 INFORMACIÓN 」
+│ ✎ .creador .servers .sugerir
+╰───────────────`.trim()
+
+    // Contenido del menú de Bots Personalizables (vacío o editable)
+    const menuPersonalizado = `
+── ⚙️ MENÚ PERSONALIZADO ──
+
+╭─「 ✨ PERSONALIZA TUS COMANDOS 」
+│ Puedes agregar tus comandos personalizados aquí.
+│ Ejemplo:
 │ ✎ .play  
-│ ✎ .tiktokvid  
-│ ✎ .tiktok <enlace>  
-│ ✎ .play2  
-│ ✎ .ytv  
-│ ✎ .ytmp4  
-│ ✎ .playaudio  
-│ ✎ .mp4  
-│ ✎ .ytmp4doc  
-│ ✎ .ig <url>  
-╰───────────────
-
-╭─「 🧰 𝙃𝙀𝙍𝘼𝙈𝙄𝙀𝙉𝙏𝘼𝙎 」
-│ ✎ .lid 
-│ ✎ .hd  
-│ ✎ .deepseek  
-│ ✎ .ss <página web>  
-│ ✎ .tourl
-│ ✎ .apk
-╰───────────────
-
-╭─「 👑 𝘾𝙍𝙀𝘼𝘿𝙊𝙍 」
-│ ✎ .dsowner  
-│ ✎ .sendmeme  
-│ ✎ .update  
-╰───────────────
-
-╭─「 📚 𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝘾𝙄𝙊𝙉 」
-│ ✎ .creador  
-│ ✎ .servers  
-│ ✎ .sugerir < cosas pal botsito >  
-╰───────────────
-
-╭─「 🎲 𝙂𝘼𝘾𝙃𝘼 𝘼𝙉𝙄𝙈𝙀 」
-│ ✎ .infoanime
-│ ✎ .c  
-│ ✎ .harem < @usuario >  
-│ ✎ .rw
-│ ✎ .waifu
-╰───────────────
-
-╭─「 👥 𝙂𝙍𝙐𝙋𝙊 」
-│ ✎ .on welcome  
-│ ✎ .off welcome  
-│ ✎ .on antilink  
-│ ✎ .off antilink  
-│ ✎ .kick  
-│ ✎ .personalidad  
-│ ✎ .top *<texto>*  
-│ ✎ .invocar *<mensaje opcional>*  
-╰───────────────
-
-╭─「 🔎 𝘽𝙐𝙎𝙌𝙐𝙀𝘿𝘼 」
-│ ✎ .imagen *<búsqueda>*  
-│ ✎ .pinterest  
-│ ✎ .tiktoksearch  
-│ ✎ .yts  
-╰───────────────
-
-╭─「 🖼️ 𝙎𝙏𝙄𝘾𝙆𝙀𝙍 」
 │ ✎ .sticker  
-│ ✎ .stickersearch *<texto>*  
-│ ✎ .toimg (reply)  
+│ ✎ .infoanime
 ╰───────────────
 
-╭─「 🤖 𝙄𝘼 」
-│ ✎ .adonix <pregunta>  
-│ ✎ .dalle <texto>  
-│ ✎ .iavoz <texto>  
-│ ✎ .ask
-│ ✎ .gemini 
-╰───────────────
+> Modifica este menú en el archivo del plugin para adaptarlo a tu subbot.`.trim()
 
-╭─「 📢 𝘾𝘼𝙉𝘼𝙇𝙀𝙎 」
-│ ✎ .nuevafotochannel  
-│ ✎ .nosilenciarcanal  
-│ ✎ .silenciarcanal  
-│ ✎ .noseguircanal  
-│ ✎ .seguircanal  
-│ ✎ .avisoschannel  
-│ ✎ .resiviravisos  
-│ ✎ .inspect  
-│ ✎ .inspeccionar  
-│ ✎ .eliminarfotochannel  
-│ ✎ .reactioneschannel  
-│ ✎ .reaccioneschannel  
-│ ✎ .nuevonombrecanal  
-│ ✎ .nuevadescchannel  
-╰───────────────
+    // Texto final con header y contenido según tipo de bot
+    const text = `${header}\n\n${isPrincipal ? menuPrincipal : menuPersonalizado}`
 
-🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1`.trim()
-
+    // Envío del mensaje con imagen
     await conn.sendMessage(m.chat, {
       image: { url: bannerURL },
       caption: text,
