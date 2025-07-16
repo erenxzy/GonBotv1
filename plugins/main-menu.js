@@ -11,7 +11,7 @@ const handler = async (m, { conn }) => {
 
     //URLs de banners hecho por Elder 
     const bannerPrincipalURL = 'https://cdn.russellxz.click/201e546d.jpeg'
-    const bannerSubbotURL = 'https://cdn.russellxz.click/4badd762.jpeg' // Cambia esta URL por tu banner para subbots
+    const bannerSubbotURL = 'https://cdn.russellxz.click/b10ffe41.jpeg' // Cambia esta URL por tu banner para subbots
 
     let text, bannerURL
 
