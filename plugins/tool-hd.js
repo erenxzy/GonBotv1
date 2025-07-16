@@ -1,53 +1,68 @@
 import fetch from 'node-fetch'
 import FormData from 'form-data'
 
-let handler = async (m, { conn, command }) => {
-  conn.hdr = conn.hdr || {}
-  if (m.sender in conn.hdr) throw '⏳ Aún hay un proceso pendiente, espera...'
+let handler = async (m, { conn, usedPrefix, command }) => {
+  const quoted = m.quoted ? m.quoted : m
+  const mime = quoted.mimetype || quoted.msg?.mimetype || ''
 
-  let q = m.quoted || m
-  let mime = (q.msg || q).mimetype || q.mediaType || ''
-  if (!mime) throw '🖼️ Envía o responde a una imagen para mejorarla.'
-  if (!/image\/(jpe?g|png)/.test(mime)) throw `❌ Formato *${mime}* no compatible. Usa JPG o PNG.`
-
-  conn.hdr[m.sender] = true
-  await conn.sendMessage(m.chat, { react: { text: '♻️', key: m.key } })
-
-  let img = await q.download?.()
-  let footer = '📸 Imagen mejorada con IA.'
-  let error = null
+  // Validar si el archivo es una imagen JPG o PNG
+  if (!/image\/(jpe?g|png)/i.test(mime)) {
+    await conn.sendMessage(m.chat, { react: { text: '❗', key: m.key } })
+    return m.reply(`Envía o *responde a una imagen* con el comando:\n*${usedPrefix + command}*`)
+  }
 
   try {
-    const imageUrl = await up(img)
-    const api = `https://fastrestapis.fasturl.cloud/aiimage/upscale?imageUrl=${encodeURIComponent(imageUrl)}&resize=4`
-    const res = await fetch(api)
+    await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } })
 
-    if (!res.ok) throw await res.text()
+    const media = await quoted.download()
+    const ext = mime.split('/')[1]
+    const filename = `mejorada_${Date.now()}.${ext}`
 
-    const buffer = await res.buffer()
-    await conn.sendFile(m.chat, buffer, 'hd.jpg', footer, m)
-  } catch (e) {
-    error = e?.message || e || '❌ Error al procesar la imagen.'
-  } finally {
-    delete conn.hdr[m.sender]
-    if (error) m.reply(String(error))
+    const form = new FormData()
+    form.append('image', media, { filename, contentType: mime })
+    form.append('scale', '2')
+
+    const headers = {
+      ...form.getHeaders(),
+      'accept': 'application/json',
+      'x-client-version': 'web',
+      'x-locale': 'es'
+    }
+
+    const res = await fetch('https://api2.pixelcut.app/image/upscale/v1', {
+      method: 'POST',
+      headers,
+      body: form
+    })
+
+    const json = await res.json()
+
+    if (!json?.result_url || !json.result_url.startsWith('http')) {
+      throw new Error('No se pudo obtener la imagen mejorada desde Pixelcut.')
+    }
+
+    const resultBuffer = await (await fetch(json.result_url)).buffer()
+
+    await conn.sendMessage(m.chat, {
+      image: resultBuffer,
+      caption: `
+✨ Tu imagen ha sido mejorada al doble de resolución.
+
+📈 Mayor nitidez y más detalles.
+
+🔧 _Usa esta función cuando necesites mejorar una imagen borrosa._
+`.trim()
+    }, { quoted: m })
+
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
+  } catch (err) {
+    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } })
+    m.reply(`❌ Falló la mejora de imagen:\n${err.message || err}`)
   }
 }
 
 handler.help = ['hd']
-handler.tags = ['tools']
-handler.command = /^(hd|remini)$/i
-handler.register = true
+handler.tags = ['herramientas', 'imagen']
+handler.command = /^hd$/i
+
 export default handler
-
-async function up(buffer) {
-  const form = new FormData()
-  form.append('reqtype', 'fileupload')
-  form.append('fileToUpload', buffer, 'image.jpg')
-
-  const res = await fetch('https://catbox.moe/user/api.php', { method: 'POST', body: form })
-  const url = await res.text()
-
-  if (!url.startsWith('https://')) throw '❌ Falló la subida a Catbox.'
-  return url.trim()
-}
