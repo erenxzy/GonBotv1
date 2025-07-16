@@ -1,35 +1,48 @@
 import axios from 'axios'
+import baileys from '@whiskeysockets/baileys'
 
-let HS = async (m, { conn, text }) => {
-  if (!text) return conn.reply(m.chat, `✎ Ingresa un texto para buscar en pinterest`, m)
+let handler = async (m, { conn, text }) => {
+  if (!text) return m.reply(`✧ 𝙋𝙤𝙧𝙛𝙖𝙫𝙤𝙧 𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙇𝙤 𝙌𝙪𝙚 𝙌𝙪𝙞𝙚𝙧𝙚𝙨 𝘽𝙪𝙨𝙘𝙖𝙧 𝙀𝙣 𝙋𝙞𝙣𝙩𝙚𝙧𝙚𝙨𝙩`)
 
   try {
-    let api = await axios.get(`https://api.stellarwa.xyz/search/pinterest?query=${encodeURIComponent(text)}`)
-    let json = api.data?.data
+    m.react('🕒')
+    let results = await pins(text)
 
-    if (!json || !json.length) return conn.reply(m.chat, `❌ No se encontraron resultados para *${text}*`, m)
+    if (!results.length) return conn.reply(m.chat, `✧ 𝙉𝙤 𝙀𝙣𝙘𝙤𝙣𝙩𝙧𝙚 𝙉𝙖𝙙𝙖 𝙀𝙣 𝙈𝙞 𝙗𝙪𝙨𝙦𝙪𝙚𝙙𝙖 💥 "${text}".`, m)
 
-    let data = json[Math.floor(Math.random() * json.length)]
+    const medias = results.slice(0, 10).map(img => ({ type: 'image', data: { url: img.hd } }))
 
-    let { id, created, hd, title } = data
-    let HS = `*「✦」 ${title || 'Sin título'}*
+    await conn.sendSylphy(m.chat, medias, {
+      caption: `✦  𝙋𝙞𝙣𝙩𝙚𝙧𝙚𝙨𝙩 𝘽𝙮 𝙂𝙤𝙣  -  𝙎𝙚𝙖𝙧𝙘𝙝  ✦\n\n✦ 𝘽𝙪𝙨𝙦𝙪𝙚𝙙𝙖 » "${text}"\n✎ 𝙍𝙚𝙨𝙪𝙡𝙩𝙖𝙙𝙤 » ${medias.length}\n\n${dev}`,
+      quoted: m
+    })
 
-> *❀ Creador: » ${created}*
-> *🜸 Cink: » https://pinterest.com/pin/${id}*`
-
-    await conn.sendMessage(m.chat, {
-      image: { url: hd },
-      caption: HS
-    }, { quoted: m })
-
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
   } catch (error) {
-    console.error(error)
-    conn.reply(m.chat, '❌ Ocurrió un error al buscar en Pinterest.', m)
+    conn.reply(m.chat, `⚠︎ Error:\n\n${error.message}`, m)
   }
 }
 
-HS.help = ['pinterest']
-HS.tags = ['search']
-HS.command = ['pinterest', 'pin, 'pinterestsearch']
-HS.register = true
-export default HS
+handler.help = ['pinterest']
+handler.command = ['pinterest', 'pin' ,'st']
+handler.tags = ['dl']
+
+export default handler
+
+const pins = async (query) => {
+  try {
+    const { data } = await axios.get(`https://api.stellarwa.xyz/search/pinterest?query=${query}`)
+
+    if (data?.status && data?.data?.length) {
+      return data.data.map(item => ({
+        hd: item.hd,
+        mini: item.mini
+      }))
+    }
+
+    return []
+  } catch (error) {
+    console.error("Error al obtener imágenes de Pinterest:", error)
+    return []
+  }
+}
