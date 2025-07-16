@@ -1,86 +1,74 @@
-const handler = async (m, { conn }) => {
+import fs from 'fs'
+import { xpRange } from '../lib/levelling.js'
+
+const handler = async (m, { conn, usedPrefix: _p }) => {
   try {
+    const { exp, limit, level } = global.db.data.users[m.sender]
+    const { min, xp, max } = xpRange(level, global.multiplier)
     const name = await conn.getName(m.sender)
-    const date = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
+
+    const d = new Date(Date.now() + 3600000)
+    const locale = 'es'
+    const date = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
     const uptime = clockString(process.uptime() * 1000)
     const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
     const tipo = conn.user?.jid?.includes('504') ? '𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️' : 'Sub Bot 🅑'
-    const bannerURL = 'https://cdn.russellxz.click/808efb6d.jpeg' // Cambia aquí la imagen del banner
+    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg' // URL de la imagen del menú
 
-    const encabezado = `
-┏━━━━━━━━━━━━━━━━━━┓
+    const help = Object.values(global.plugins)
+      .filter(p => !p.disabled)
+      .map(plugin => ({
+        help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
+        tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
+        prefix: 'customPrefix' in plugin,
+        limit: plugin.limit,
+        premium: plugin.premium,
+      }))
+
+    const tags = {
+      serbot: '🔰 SUB-BOTS',
+      eco: '💰 ECONOMÍA',
+      downloader: '📥 DESCARGA',
+      tools: '🧰 HERRAMIENTAS',
+      owner: '👑 CREADOR',
+      info: '📚 INFORMACIÓN',
+      gacha: '🎲 GACHA ANIME',
+      group: '👥 GRUPO',
+      search: '🔎 BÚSQUEDA',
+      sticker: '🖼️ STICKERS',
+      ia: '🤖 IA',
+      channel: '📢 CANALES',
+    }
+
+    const textMenu = [
+`┏━━━━━━━━━━━━━━━━━━┓
 ┃ 🤖 *${nombreBot}* [${tipo}]
-┃ 👤 𝙃𝙤𝙡𝙖, *${name}*
-┃ ⏱️ 𝘼𝙘𝙩𝙞𝙫𝙤: *${uptime}*
-┃ 📅 𝙁𝙚𝙘𝙝𝙖: *${date}*
-┗━━━━━━━━━━━━━━━━━━┛`.trim()
+┃ 👤 Hola, *${name}*
+┃ ⏱️ Activo: *${uptime}*
+┃ 📅 Fecha: *${date}*
+┗━━━━━━━━━━━━━━━━━━┛`,
+'── ⬤ *MENÚ DE COMANDOS* ⬤ ──',
+'',
+...Object.keys(tags).map(tag => {
+  const section = help
+    .filter(plugin => plugin.tags.includes(tag))
+    .map(plugin =>
+      plugin.help.map(cmd =>
+        `│ ✎ ${plugin.prefix ? cmd : `${_p}${cmd}`} ${plugin.limit ? '⭐' : ''} ${plugin.premium ? '🪪' : ''}`.trim()
+      ).join('\n')
+    ).join('\n')
 
-    const cuerpo = `
-── ⬤ 𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊 ⬤ ──
-
-╭─「 🔰 *𝙎𝙐𝘽-𝘽𝙊𝙏𝙎* 」
-│ ✎ .bots  | .qr | .code
-│ ✎ .setbanner | .setname
-╰───────────────
-
-╭─「 💰 *𝙀𝘾𝙊𝙉𝙊𝙈𝙄𝘼* 」
-│ ✎ .bal | .eboard | .crimen
-│ ✎ .depositar | .work
-╰───────────────
-
-╭─「 📥 *𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼* 」
-│ ✎ .play | .tiktok <url> | .ytmp4
-│ ✎ .mp4 | .ig <url>
-╰───────────────
-
-╭─「 🧰 *𝙃𝙀𝙍𝘼𝙈𝙄𝙀𝙉𝙏𝘼𝙎* 」
-│ ✎ .lid | .hd | .tourl
-│ ✎ .apk | .calc
-╰───────────────
-
-╭─「 👑 *𝘾𝙍𝙀𝘼𝘿𝙊𝙍* 」
-│ ✎ .owner | .update
-╰───────────────
-
-╭─「 📚 *𝙄𝙉𝙁𝙊* 」
-│ ✎ .botinfo | .ping | .creador
-╰───────────────
-
-╭─「 🎲 *𝙂𝘼𝘾𝙃𝘼 𝘼𝙉𝙄𝙈𝙀* 」
-│ ✎ .waifu | .harem | .infoanime
-╰───────────────
-
-╭─「 👥 *𝙂𝙍𝙐𝙋𝙊* 」
-│ ✎ .on welcome | .kick | .invocar
-╰───────────────
-
-╭─「 🔎 *𝘽𝙐𝙎𝙌𝙐𝙀𝘿𝘼* 」
-│ ✎ .imagen | .yts | .pinterest
-╰───────────────
-
-╭─「 🖼️ *𝙎𝙏𝙄𝘾𝙆𝙀𝙍* 」
-│ ✎ .sticker | .toimg | .stickermeme
-╰───────────────
-
-╭─「 🤖 *𝙄𝘼 / 𝙂𝙋𝙏* 」
-│ ✎ .adonix | .ask | .dalle
-╰───────────────
-
-╭─「 📢 *𝘾𝘼𝙉𝘼𝙇𝙀𝙎* 」
-│ ✎ .seguircanal | .inspeccionar
-│ ✎ .nuevonombrecanal
-╰───────────────
-
-🔗 ᴍᴀs ɪɴғᴏ:
-https://erenxsit.vercel.app
-
-🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ɢᴏɴʙᴏᴛ-ᴠ1`.trim()
-
-    const text = [encabezado, cuerpo].join('\n\n')
+  return section
+    ? `╭─「 ${tags[tag]} 」\n${section}\n╰───────────────`
+    : ''
+}),
+'🔗 Más info: https://erenxsit.vercel.app',
+'🚀 Desarrollado por GonBot-v1'
+].join('\n').trim()
 
     await conn.sendMessage(m.chat, {
       image: { url: bannerURL },
-      caption: text,
+      caption: textMenu,
       mentions: [m.sender]
     }, { quoted: m })
 
@@ -93,7 +81,7 @@ https://erenxsit.vercel.app
 handler.command = ['menu', 'menú', 'help']
 export default handler
 
-function clockString(ms) {
+const clockString = (ms) => {
   const h = Math.floor(ms / 3600000)
   const m = Math.floor(ms / 60000) % 60
   const s = Math.floor(ms / 1000) % 60
