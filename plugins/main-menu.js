@@ -1,33 +1,30 @@
-import fetch from 'node-fetch';
-import moment from 'moment-timezone';
+import moment from 'moment-timezone'
 
 const handler = async (m, { conn }) => {
-  const name = await conn.getName(m.sender);
-  const nombreBot = "GonBot-v1";
+  try {
+    const nombreBot = 'GonBot-v1'
+    const name = await conn.getName(m.sender)
+    const uptime = clockString(process.uptime() * 1000)
+    const date = moment().tz('America/Tegucigalpa').format('DD [de] MMMM [de] YYYY')
 
-  // Fecha y hora
-  const date = moment().tz('America/Tegucigalpa').format('DD/MM/YYYY hh:mm A');
-  const tiempoActivo = process.uptime() * 1000;
-  const uptime = clockString(tiempoActivo);
+    // URL por defecto o la que esté guardada en db
+    const menuImg = (global.db.data.menu && global.db.data.menu.img) 
+      ? global.db.data.menu.img 
+      : 'https://cdn.russellxz.click/808efb6d.jpeg'
 
-  // Obtener imagen de menú desde base de datos global
-  const menuImg = global.db.data.menu?.img || 'https://cdn.russellxz.click/808efb6d.jpeg';
-
-  // Texto personalizado del menú
-  const finalText = `
+    const text = `
 ┏━━━━━━━━━━━━━━━━━━┓
 ┃  🤖 *${nombreBot}*
-┃  👤 𝙃𝙤𝙡𝙖, *${name}*
-┃  ⏱️ 𝘼𝙘𝙩𝙞𝙫𝙤 𝙃𝙖𝙘𝙚: *${uptime}*
-┃  📅 𝙁𝙚𝙘𝙝𝙖: *${date}*
+┃  👤 Hola, *${name}*
+┃  ⏱️ Activo Hace: *${uptime}*
+┃  📅 Fecha: *${date}*
 ┗━━━━━━━━━━━━━━━━━━┛
 
-── ⬤𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊⬤ ──
+── ⬤ MENU DE COMANDOS ⬤ ──
 
-> ᴍᴀs ɪɴғᴏ ᴅᴇ ɢᴏɴʙᴏᴛ-ᴠ1 
-https://erenxsit.vercel.app
+> Más info de GonBot-v1: https://erenxsit.vercel.app
 
-╭─「 🔰 𝙎𝙐𝘽-𝘽𝙊𝙏𝙎 」
+╭─「 🔰 SUB-BOTS 」
 │ ✎ .bots  
 │ ✎ .qr  
 │ ✎ .code  
@@ -36,7 +33,7 @@ https://erenxsit.vercel.app
 │ ✎ .sublist  
 ╰───────────────
 
-╭─「 💰 𝙀𝘾𝙊𝙉𝙊𝙈𝙄𝘼 」
+╭─「 💰 ECONOMÍA 」
 │ ✎ .bal  
 │ ✎ .eboard  
 │ ✎ .crimen  
@@ -46,7 +43,7 @@ https://erenxsit.vercel.app
 │ ✎ .work 
 ╰───────────────
 
-╭─「 📥 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼 」
+╭─「 📥 DESCARGAS 」
 │ ✎ .play  
 │ ✎ .tiktokvid  
 │ ✎ .tiktok <enlace>  
@@ -59,7 +56,7 @@ https://erenxsit.vercel.app
 │ ✎ .ig <url>  
 ╰───────────────
 
-╭─「 🧰 𝙃𝙀𝙍𝘼𝙈𝙄𝙀𝙉𝙏𝘼𝙎 」
+╭─「 🧰 HERRAMIENTAS 」
 │ ✎ .lid 
 │ ✎ .hd  
 │ ✎ .deepseek  
@@ -68,27 +65,27 @@ https://erenxsit.vercel.app
 │ ✎ .apk
 ╰───────────────
 
-╭─「 👑 𝘾𝙍𝙀𝘼𝘿𝙊𝙍 」
+╭─「 👑 CREADOR 」
 │ ✎ .dsowner  
 │ ✎ .sendmeme  
 │ ✎ .update  
 ╰───────────────
 
-╭─「 📚 𝙄𝙉𝙁𝙊𝙍𝘼𝙈𝙄𝙊𝙉 」
+╭─「 📚 INFORMACIÓN 」
 │ ✎ .creador  
 │ ✎ .servers  
-│ ✎ .sugerir < cosas pal botsito >  
+│ ✎ .sugerir <cosas pal botsito>  
 ╰───────────────
 
-╭─「 🎲 𝙂𝘼𝘾𝙃𝘼 𝘼𝙉𝙄𝙈𝙀 」
+╭─「 🎲 GACHA ANIME 」
 │ ✎ .infoanime
 │ ✎ .c  
-│ ✎ .harem < @usuario >  
+│ ✎ .harem <@usuario>  
 │ ✎ .rw
 │ ✎ .waifu
 ╰───────────────
 
-╭─「 👥 𝙂𝙍𝙐𝙋𝙊 」
+╭─「 👥 GRUPO 」
 │ ✎ .on welcome  
 │ ✎ .off welcome  
 │ ✎ .on antilink  
@@ -99,20 +96,20 @@ https://erenxsit.vercel.app
 │ ✎ .invocar *<mensaje opcional>*  
 ╰───────────────
 
-╭─「 🔎 𝘽𝙐𝙎𝙌𝙐𝙀𝘿𝘼 」
+╭─「 🔎 BÚSQUEDA 」
 │ ✎ .imagen *<búsqueda>*  
 │ ✎ .pinterest  
 │ ✎ .tiktoksearch  
 │ ✎ .yts  
 ╰───────────────
 
-╭─「 🖼️ 𝙎𝙏𝙄𝘾𝙆𝙀𝙍 」
+╭─「 🖼️ STICKER 」
 │ ✎ .sticker  
 │ ✎ .stickersearch *<texto>*  
 │ ✎ .toimg (reply)  
 ╰───────────────
 
-╭─「 🤖 𝙄𝘼 」
+╭─「 🤖 IA 」
 │ ✎ .adonix <pregunta>  
 │ ✎ .dalle <texto>  
 │ ✎ .iavoz <texto>  
@@ -120,7 +117,7 @@ https://erenxsit.vercel.app
 │ ✎ .gemini 
 ╰───────────────
 
-╭─「 📢 𝘾𝘼𝙉𝘼𝙇𝙀𝙎 」
+╭─「 📢 CANALES 」
 │ ✎ .nuevafotochannel  
 │ ✎ .nosilenciarcanal  
 │ ✎ .silenciarcanal  
@@ -137,19 +134,26 @@ https://erenxsit.vercel.app
 │ ✎ .nuevadescchannel  
 ╰───────────────
 
-> 🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1
+> 🚀 Desarrollado por Project GonBot-v1
 `
 
-  await conn.sendMessage(m.chat, { image: { url: menuImg }, caption: finalText.trim() }, { quoted: m });
-};
+    await conn.sendMessage(m.chat, {
+      image: { url: menuImg },
+      caption: text.trim()
+    }, { quoted: m })
 
-handler.command = ['menu', 'help', 'ayuda'];
-export default handler;
+  } catch (e) {
+    console.error('Error en menú:', e)
+    await conn.reply(m.chat, '❎ Ocurrió un error mostrando el menú.', m)
+  }
+}
 
-// Función para mostrar uptime en formato legible
+handler.command = ['menu', 'help', 'ayuda']
+export default handler
+
 function clockString(ms) {
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000);
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60;
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
-  return [h, 'h', m, 'm', s, 's'].join(' ');
+  let h = Math.floor(ms / 3600000)
+  let m = Math.floor(ms / 60000) % 60
+  let s = Math.floor(ms / 1000) % 60
+  return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
