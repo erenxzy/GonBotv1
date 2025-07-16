@@ -4,13 +4,16 @@ const handler = async (m, { conn }) => {
     const date = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
     const uptime = clockString(process.uptime() * 1000)
     const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
-    const isPrincipal = conn.user?.jid?.includes('3147172161') // ← Cambia por el JID de tu bot principal si es otro
     const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg'
+
+    // 🔒 Asegúrate de poner aquí el jid correcto del bot principal
+    const botPrincipalJIDs = ['3147172161@s.whatsapp.net']
+    const isPrincipal = botPrincipalJIDs.includes(conn.user?.jid)
 
     let text
 
     if (isPrincipal) {
-      // 🟢 MENÚ PARA BOT PRINCIPAL
+      // ✅ MENÚ PARA BOT PRINCIPAL
       let header = `
 ┏━━━━━━━━━━━━━━━━━━┓
 ┃  🤖 *${nombreBot}*
@@ -138,6 +141,7 @@ https://erenxsit.vercel.app
 ╰───────────────
 
 🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1`.trim()
+
     } else {
       // 🔵 MENÚ PARA SUBBOTS
       text = `
