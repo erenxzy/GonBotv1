@@ -13,7 +13,7 @@ const handler = async (m, { conn, usedPrefix: _p }) => {
     const uptime = clockString(process.uptime() * 1000)
     const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
     const tipo = conn.user?.jid?.includes('504') ? '𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️' : 'Sub Bot 🅑'
-    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg' // URL de la imagen del menú
+    const bannerURL = 'https://cdn.russellxz.click/995640b1.jpeg' // URL de la imagen del menú
 
     const help = Object.values(global.plugins)
       .filter(p => !p.disabled)
