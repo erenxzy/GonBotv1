@@ -4,10 +4,14 @@ const handler = async (m, { conn }) => {
     const date = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
     const uptime = clockString(process.uptime() * 1000)
     const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
-    const tipo = conn.user?.jid?.includes('3147172161') ? 'Bot Principal 🟢' : '𝘽𝙤𝙩 𝙋𝙧𝙞𝙣𝙘𝙞𝙥𝙖𝙡 ☄️'
-    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg' // URL del banner
+    const isPrincipal = conn.user?.jid?.includes('3147172161') // ← Cambia por el JID de tu bot principal si es otro
+    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg'
 
-    let header = `
+    let text
+
+    if (isPrincipal) {
+      // 🟢 MENÚ PARA BOT PRINCIPAL
+      let header = `
 ┏━━━━━━━━━━━━━━━━━━┓
 ┃  🤖 *${nombreBot}*
 ┃  👤 𝙃𝙤𝙡𝙖, *${name}*
@@ -15,10 +19,10 @@ const handler = async (m, { conn }) => {
 ┃  📅 𝙁𝙚𝙘𝙝𝙖: *${date}*
 ┗━━━━━━━━━━━━━━━━━━┛`.trim()
 
-    let text = `
+      text = `
 ${header}
 
-── ⬤𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘋𝙊⬤ ──
+── ⬤𝙈𝙀𝙉𝙐 𝘿𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊⬤ ──
 
 > ᴍᴀs ɪɴғᴏ ᴅᴇ ɢᴏɴʙᴏᴛ-ᴠ1 
 https://erenxsit.vercel.app
@@ -134,6 +138,38 @@ https://erenxsit.vercel.app
 ╰───────────────
 
 🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1`.trim()
+    } else {
+      // 🔵 MENÚ PARA SUBBOTS
+      text = `
+╭─[ 🤖 *SUBBOT ACTIVO* ]─╮
+│ 👤 *Hola:* ${name}
+│ 📅 *Fecha:* ${date}
+│ ⏱️ *Uptime:* ${uptime}
+╰────────────────────╯
+
+╭──「 🎧 DESCARGAS 」───
+│ ✎ .play  
+│ ✎ .ytmp3  
+│ ✎ .ytmp4  
+│ ✎ .tiktok  
+│ ✎ .mp4  
+╰────────────────────╯
+
+╭──「 🎮 JUEGOS / ECONOMÍA 」──
+│ ✎ .bal  
+│ ✎ .work  
+│ ✎ .crimen  
+│ ✎ .slut  
+╰────────────────────╯
+
+╭──「 👤 INFO 」──
+│ ✎ .menu  
+│ ✎ .creador  
+╰────────────────────╯
+
+📌 Este es un subbot de *GonBot-V1*
+Desarrollado para soporte ligero.`.trim()
+    }
 
     await conn.sendMessage(m.chat, {
       image: { url: bannerURL },
