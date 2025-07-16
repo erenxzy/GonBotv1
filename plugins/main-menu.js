@@ -4,16 +4,20 @@ const handler = async (m, { conn }) => {
     const date = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
     const uptime = clockString(process.uptime() * 1000)
     const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
-    const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg'
 
-    // 🔒 Asegúrate de poner aquí el jid correcto del bot principal
+    // JID del BOT PRINCIPAL ELDER 504
     const botPrincipalJIDs = ['18097769423@s.whatsapp.net']
     const isPrincipal = botPrincipalJIDs.includes(conn.user?.jid)
 
-    let text
+    //URLs de banners hecho por Elder 
+    const bannerPrincipalURL = 'https://files.catbox.moe/jzfs7z.jpg'
+    const bannerSubbotURL = 'https://cdn.russellxz.click/4badd762.jpeg' // Cambia esta URL por tu banner para subbots
+
+    let text, bannerURL
 
     if (isPrincipal) {
-      // ✅ MENÚ PARA BOT PRINCIPAL
+      // MENÚ PARA BOT PRINCIPAL
+      bannerURL = bannerPrincipalURL
       let header = `
 ┏━━━━━━━━━━━━━━━━━━┓
 ┃  🤖 *${nombreBot}*
@@ -77,7 +81,7 @@ https://erenxsit.vercel.app
 │ ✎ .update  
 ╰───────────────
 
-╭─「 📚 𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝘾𝙄𝙊𝙉 」
+╭─「 📚 𝙄𝙉𝙁𝙊𝙍𝘼𝙈𝙄𝙊𝙉 」
 │ ✎ .creador  
 │ ✎ .servers  
 │ ✎ .sugerir < cosas pal botsito >  
@@ -143,7 +147,8 @@ https://erenxsit.vercel.app
 🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1`.trim()
 
     } else {
-      // 🔵 MENÚ PARA SUBBOTS
+      // ELDER MENÚ PARA SUBBOTS
+      bannerURL = bannerSubbotURL
       text = `
 ╭─[ 🤖 *SUBBOT ACTIVO* ]─╮
 │ 👤 *Hola:* ${name}
