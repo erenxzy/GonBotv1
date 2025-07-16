@@ -61,14 +61,13 @@ npm start
 ---
 
 
+### **`No hace nada`**
+<a href="https://github.com/Elder504">
+<img src="https://github.com/Elder504.png" " width="150" heith="150" alt="𝙀𝙡𝙙𝙚𝙧504"/>  </a>
 
 ### **`Desarrollador`**
 <a href="https://github.com/El-brayan502">
 <img src="https://github.com/El-brayan502.png" " width="150" heith="150" alt="𝙀𝙡 𝘽𝙧𝙮𝙖𝙣502"/>  </a>
-
-### **`No hace nada`**
-<a href="https://github.com/Elder504">
-<img src="https://github.com/Elder504.png" " width="150" heith="150" alt="𝙀𝙡𝙙𝙚𝙧504"/>  </a>
 
 ### **`Propetario`**
 <a href="https://github.com/erenxzy">
