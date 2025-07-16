@@ -7,7 +7,7 @@ const handler = async (m, { conn }) => {
     const bannerURL = 'https://files.catbox.moe/jzfs7z.jpg'
 
     // 🔒 Asegúrate de poner aquí el jid correcto del bot principal
-    const botPrincipalJIDs = ['1809 7769423@s.whatsapp.net']
+    const botPrincipalJIDs = ['18097769423@s.whatsapp.net']
     const isPrincipal = botPrincipalJIDs.includes(conn.user?.jid)
 
     let text
