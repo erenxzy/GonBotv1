@@ -5,18 +5,15 @@ const handler = async (m, { conn }) => {
     const uptime = clockString(process.uptime() * 1000)
     const nombreBot = global.namebot || 'ɢᴏɴʙᴏᴛ-ᴠ1'
 
-    // JID del BOT PRINCIPAL ELDER 504
     const botPrincipalJIDs = ['18097769423@s.whatsapp.net']
-    const isPrincipal = botPrincipalJIDs.includes(conn.user?.jid)
+    const isPrincipal = conn.user?.jid && botPrincipalJIDs.includes(conn.user.jid)
 
-    //URLs de banners hecho por Elder 
     const bannerPrincipalURL = 'https://cdn.russellxz.click/201e546d.jpeg'
-    const bannerSubbotURL = 'https://cdn.russellxz.click/b10ffe41.jpeg' // Cambia esta URL por tu banner para subbots
+    const bannerSubbotURL = 'https://cdn.russellxz.click/b10ffe41.jpeg'
 
     let text, bannerURL
 
     if (isPrincipal) {
-      // MENÚ PARA BOT PRINCIPAL
       bannerURL = bannerPrincipalURL
       let header = `
 ┏━━━━━━━━━━━━━━━━━━┓
@@ -34,167 +31,108 @@ ${header}
 > ᴍᴀs ɪɴғᴏ ᴅᴇ ɢᴏɴʙᴏᴛ-ᴠ1 
 https://erenxsit.vercel.app
 
-╭─「 🔰 𝙎𝙐𝘽-𝘽𝙊𝙏𝙎 」
-│ ✎ .bots  
-│ ✎ .qr  
-│ ✎ .code  
-│ ✎ .setbanner  
-│ ✎ .setname  
-│ ✎ .sublist  
-╰───────────────
+╭─「 🔰 SUB-BOTS 」
+│ ✎ .bots .qr .code .setbanner .setname .sublist
+╰─────────────────────
 
-╭─「 💰 𝙀𝘾𝙊𝙉𝙊𝙈𝙄𝘼 」
-│ ✎ .bal  
-│ ✎ .eboard  
-│ ✎ .crimen  
-│ ✎ .depositar  
-│ ✎ .slut  
-│ ✎ .unreg  
-│ ✎ .work 
-╰───────────────
+╭─「 💰 ECONOMÍA 」
+│ ✎ .bal .eboard .crimen .depositar .slut .unreg .work
+╰─────────────────────
 
-╭─「 📥 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼 」
-│ ✎ .play  
-│ ✎ .tiktokvid  
-│ ✎ .tiktok <enlace>  
-│ ✎ .play2  
-│ ✎ .ytv  
-│ ✎ .ytmp4  
-│ ✎ .playaudio  
-│ ✎ .mp4  
-│ ✎ .ytmp4doc  
-│ ✎ .ig <url>  
-╰───────────────
+╭─「 📥 DESCARGA 」
+│ ✎ .play .tiktokvid .tiktok <enlace> .play2 .ytv .ytmp4 .playaudio .mp4 .ytmp4doc .ig
+╰─────────────────────
 
-╭─「 🧰 𝙃𝙀𝙍𝘼𝙈𝙄𝙀𝙉𝙏𝘼𝙎 」
-│ ✎ .lid 
-│ ✎ .hd  
-│ ✎ .deepseek  
-│ ✎ .ss <página web>  
-│ ✎ .tourl
-│ ✎ .apk
-╰───────────────
+╭─「 🧰 HERRAMIENTAS 」
+│ ✎ .lid .hd .deepseek .ss .tourl .apk
+╰─────────────────────
 
-╭─「 👑 𝘾𝙍𝙀𝘼𝘿𝙊𝙍 」
-│ ✎ .dsowner  
-│ ✎ .sendmeme  
-│ ✎ .update  
-╰───────────────
+╭─「 👑 CREADOR 」
+│ ✎ .dsowner .sendmeme .update
+╰─────────────────────
 
-╭─「 📚 𝙄𝙉𝙁𝙊𝙍𝘼𝙈𝙄𝙊𝙉 」
-│ ✎ .creador  
-│ ✎ .servers  
-│ ✎ .sugerir < cosas pal botsito >  
-╰───────────────
+╭─「 📚 INFORMACIÓN 」
+│ ✎ .creador .servers .sugerir
+╰─────────────────────
 
-╭─「 🎲 𝙂𝘼𝘾𝙃𝘼 𝘼𝙉𝙄𝙈𝙀 」
-│ ✎ .infoanime
-│ ✎ .c  
-│ ✎ .harem < @usuario >  
-│ ✎ .rw
-│ ✎ .waifu
-╰───────────────
+╭─「 🎲 GACHA ANIME 」
+│ ✎ .infoanime .c .harem @usuario .rw .waifu
+╰─────────────────────
 
-╭─「 👥 𝙂𝙍𝙐𝙋𝙊 」
-│ ✎ .on welcome  
-│ ✎ .off welcome  
-│ ✎ .on antilink  
-│ ✎ .off antilink  
-│ ✎ .kick  
-│ ✎ .personalidad  
-│ ✎ .top *<texto>*  
-│ ✎ .invocar *<mensaje opcional>*  
-╰───────────────
+╭─「 👥 GRUPO 」
+│ ✎ .on welcome .off welcome .on antilink .off antilink .kick .personalidad .top .invocar
+╰─────────────────────
 
-╭─「 🔎 𝘽𝙐𝙎𝙌𝙐𝙀𝘿𝘼 」
-│ ✎ .imagen *<búsqueda>*  
-│ ✎ .pinterest  
-│ ✎ .tiktoksearch  
-│ ✎ .yts  
-╰───────────────
+╭─「 🔎 BÚSQUEDA 」
+│ ✎ .imagen .pinterest .tiktoksearch .yts
+╰─────────────────────
 
-╭─「 🖼️ 𝙎𝙏𝙄𝘾𝙆𝙀𝙍 」
-│ ✎ .sticker  
-│ ✎ .stickersearch *<texto>*  
-│ ✎ .toimg (reply)  
-╰───────────────
+╭─「 🖼️ STICKER 」
+│ ✎ .sticker .stickersearch <texto> .toimg
+╰─────────────────────
 
-╭─「 🤖 𝙄𝘼 」
-│ ✎ .adonix <pregunta>  
-│ ✎ .dalle <texto>  
-│ ✎ .iavoz <texto>  
-│ ✎ .ask
-│ ✎ .gemini 
-╰───────────────
+╭─「 🤖 IA 」
+│ ✎ .adonix .dalle .iavoz .ask .gemini
+╰─────────────────────
 
-╭─「 📢 𝘾𝘼𝙉𝘼𝙇𝙀𝙎 」
-│ ✎ .nuevafotochannel  
-│ ✎ .nosilenciarcanal  
-│ ✎ .silenciarcanal  
-│ ✎ .noseguircanal  
-│ ✎ .seguircanal  
-│ ✎ .avisoschannel  
-│ ✎ .resiviravisos  
-│ ✎ .inspect  
-│ ✎ .inspeccionar  
-│ ✎ .eliminarfotochannel  
-│ ✎ .reactioneschannel  
-│ ✎ .reaccioneschannel  
-│ ✎ .nuevonombrecanal  
-│ ✎ .nuevadescchannel  
-╰───────────────
+╭─「 📢 CANALES 」
+│ ✎ .nuevafotochannel .nosilenciarcanal .silenciarcanal .noseguircanal .seguircanal .avisoschannel .resiviravisos .inspect .inspeccionar .eliminarfotochannel .reactioneschannel .reaccioneschannel .nuevonombrecanal .nuevadescchannel
+╰─────────────────────
 
-> 🚀 ᴅᴇsᴀʀʀᴏʟʟᴀᴅᴏ ᴘᴏʀ ᴘʀᴏʏᴇᴄᴛ ɢᴏɴʙᴏᴛᴠ1`.trim()
+> 🚀 Desarrollado por *PROYECT GONBOTV1*`.trim()
 
     } else {
-      // ELDER MENÚ PARA SUBBOTS
       bannerURL = bannerSubbotURL
       text = `
-╭─[ 🤖 𝙎𝙐𝘽-𝘽𝙊𝙏 ]─╮
-│ 👤 *𝙃𝙊𝙇𝘼:* ${name}
-│ 📅 *𝙁𝙀𝘾𝙃𝘼:* ${date}
-│ ⏱️ *𝙐𝙋𝙏𝙄𝙈𝙀:* ${uptime}
+╭─[ 🤖 SUB-BOT ]─╮
+│ 👤 Hola: ${name}
+│ 📅 Fecha: ${date}
+│ ⏱️ Uptime: ${uptime}
 ╰────────────────────╯
 
-╭──「 🎧 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼 」───
-│ ✦ .play > ᴇsᴄᴜᴄʜᴀʀ ᴍᴜsɪᴄᴀ
-│ ✦ .ytmp3 > ᴅᴇsᴄᴀʀɢᴀ ᴀᴜᴅɪᴏ 
-│ ✦ .ytmp4 ʟɪɴᴋ ᴠɪᴅᴇᴏ ʏᴛʙ 
-│ ✦ .tiktok > ʟɪɴᴋ ᴠɪᴅᴇᴏ ᴛɪᴋ
-│ ✦ .mp4 > ᴠɪᴅᴇᴏ
+╭─「 🎧 DESCARGA 」
+│ ✦ .play .ytmp3 .ytmp4 .tiktok .mp4
 ╰────────────────────╯
 
-╭──「 🎮 𝙅𝙐𝙀𝙂𝙊𝙎 𝙓 𝙀𝘾𝙊𝙉𝙊𝙈𝙄𝘼 」──
-│ ✦ .bal > ᴛᴜ ᴇsᴛᴀᴅɪᴀ 
-│ ✦ .work > ᴛʀᴀʙᴀᴊʀ  
-│ ✦ .crimen > ʜᴀᴄᴇʀ ᴜɴ ᴄʀɪᴍᴇɴ
-│ ✦ .slut > ᴛʀᴀʙᴀᴊᴏ sᴜᴄɪᴏ
+╭─「 🎮 JUEGOS / ECONOMÍA 」
+│ ✦ .bal .work .crimen .slut
 ╰────────────────────╯
 
-╭──「 👤 𝙄𝙉𝙁𝙊 」──
-│ ✦ .menu  
-│ ✦ .creador > ɪɴғᴏ  
+╭─「 👤 INFO 」
+│ ✦ .menu .creador
 ╰────────────────────╯
 
-╭──「🤖 𝙄𝘼 𝙓 𝙏𝙊𝙊𝙇𝙎 ⚒️ 」──
-│ ✦ .iavoz > ᴠᴏᴢ ᴀʀᴛɪғɪᴄɪᴀʟ
-│ ✦ .Gemini > ᴘʀᴇɢᴜɴᴛᴀ
-│ ✦ .Hd > ᴍᴇᴊᴏʀᴀʀ ɪᴍᴀɢᴇɴ 
+╭─「 🤖 IA / TOOLS ⚒️ 」
+│ ✦ .iavoz .gemini .hd
 ╰────────────────────╯
 
-
-> 🚀 ᴅᴇsᴀʀᴏʟʟᴀᴅ ᴘᴏʀ ᴇʟ sᴛᴀғғ ᴅᴇ ɢᴏɴʙᴏᴛ `.trim()
+> 🚀 Desarrollado por *EL STAFF DE GONBOT*`.trim()
     }
 
-    await conn.sendMessage(m.chat, {
-      image: { url: bannerURL },
-      caption: text,
-      mentions: [m.sender]
-    }, { quoted: m })
+    // Validar longitud máxima de caption
+    const maxCaptionLength = 4000
+    if (text.length > maxCaptionLength) {
+      await conn.sendMessage(m.chat, { image: { url: bannerURL } }, { quoted: m })
+      await conn.sendMessage(m.chat, { text, mentions: [m.sender] }, { quoted: m })
+    } else {
+      try {
+        await conn.sendMessage(m.chat, {
+          image: { url: bannerURL },
+          caption: text,
+          mentions: [m.sender]
+        }, { quoted: m })
+      } catch (err) {
+        console.error('❌ Error enviando imagen:', err)
+        await conn.sendMessage(m.chat, {
+          text: `⚠️ Error al mostrar el banner.\nAquí tienes el menú:\n\n${text}`,
+          mentions: [m.sender]
+        }, { quoted: m })
+      }
+    }
 
   } catch (e) {
     console.error('❌ Error en el menú:', e)
-    conn.reply(m.chat, '❎ Error al mostrar el menú.', m)
+    await conn.reply(m.chat, '❎ Error al mostrar el menú.\n' + e.message, m)
   }
 }
 
