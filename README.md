@@ -60,15 +60,11 @@ npm start
 
 ---
 
+### Colaboradores implicados
+[![TheShadowBrokers1](https://github.com/Elder504.png?size=60)](https://github.com/Elder504) 
 
-### **`No hace nada`**
-<a href="https://github.com/Elder504">
-<img src="https://github.com/Elder504.png" " width="150" heith="150" alt="𝙀𝙡𝙙𝙚𝙧504"/>  </a>
+### Gesto de agradecimiento 
+[![TheShadowBrokers1](https://github.com/El-brayan502.png?size=60)](https://github.com/El-brayan502) 
 
-### **`Desarrollador`**
-<a href="https://github.com/El-brayan502">
-<img src="https://github.com/El-brayan502.png" " width="150" heith="150" alt="𝙀𝙡 𝘽𝙧𝙮𝙖𝙣502"/>  </a>
-
-### **`Propetario`**
-<a href="https://github.com/erenxzy">
-<img src="https://github.com/erenxzy.png" " width="150" heith="150" alt="erenxzy"/>  </a>
+### Autora del Proyecto
+[![GataNina-Li](https://github.com/erenxzy.png?size=100)](https://github.com/erenxzy) 
