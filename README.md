@@ -60,7 +60,7 @@ npm start
 
 ---
 
-### Colaboradores implicados
+### Colaborador
 [![TheShadowBrokers1](https://github.com/Elder504.png?size=60)](https://github.com/Elder504) 
 
 ### Gesto de agradecimiento 
