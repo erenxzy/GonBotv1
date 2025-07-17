@@ -66,5 +66,5 @@ npm start
 ### Gesto de agradecimiento 
 [![TheShadowBrokers1](https://github.com/El-brayan502.png?size=60)](https://github.com/El-brayan502) 
 
-### Autora del Proyecto
+### Autor del Proyecto
 [![GataNina-Li](https://github.com/erenxzy.png?size=100)](https://github.com/erenxzy) 
